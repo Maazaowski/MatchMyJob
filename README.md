@@ -1,7 +1,7 @@
 # match-my-job
 
 ## Version
-0.0.0
+0.0.1
 
 ## Last Updated
 2024-12-11
