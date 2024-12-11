@@ -15,11 +15,10 @@ function App() {
   const { processMatch, isProcessing, error } = useCareerCraft();
   const [results, setResults] = useState<MatchResult | null>(null);
 
-  const handleResumeUpload = async (file: File) => {
-    const content = await file.text();
-    setResume({ content, file });
+  const handleResumeUpload = async (file: File, extractedText: string) => {
+    console.log(extractedText);
+    setResume({ content: extractedText, file });
   };
-
   const handleJobSubmit = async (company: string, position: string, description: string) => {
     setJobDetails({ content: description, company, position });
     try {

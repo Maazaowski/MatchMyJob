@@ -3,9 +3,9 @@ import { CareerCraftAI } from '../services/CareerCraftAI';
 import { ResumeData, JobDescription, MatchResult, Region } from '../types';
 
 const ai = new CareerCraftAI(
-  process.env.VITE_OPENAI_KEY || '',
-  process.env.VITE_ANTHROPIC_KEY || '',
-  process.env.VITE_GEMINI_KEY || ''
+  import.meta.env.VITE_OPENAI_KEY || '',
+  import.meta.env.VITE_ANTHROPIC_KEY || '',
+  import.meta.env.VITE_GEMINI_KEY || ''
 );
 
 export function useCareerCraft() {
@@ -21,19 +21,21 @@ export function useCareerCraft() {
     setError(null);
 
     try {
-      const keywords = await ai.analyzeKeywords(job.content);
-      const gaps = await ai.identifyGaps(resume.content, keywords);
+      const keywords = await ai.analyzeKeywords(job.content, region);
+      const gaps = await ai.identifyGaps(resume.content, keywords, region);
       const tailoredResume = await ai.generateTailoredResume(
         resume.content,
         job.content,
-        gaps
+        gaps,
+        region
       );
       const coverLetter = await ai.generateCoverLetter(
         tailoredResume,
         job.content,
-        job.company
+        job.company,
+        region
       );
-      const atsAnalysis = await ai.calculateATSScore(tailoredResume, job.content);
+      const atsAnalysis = await ai.calculateATSScore(tailoredResume, job.content, region);
 
       return {
         tailoredResume,
