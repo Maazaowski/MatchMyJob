@@ -1,6 +1,13 @@
+export interface PDFLayout {
+  fonts: any[];
+  styles: any[];
+  positions: any[];
+}
+
 export interface ResumeData {
   content: string;
   file: File | null;
+  layout?: PDFLayout;
 }
 
 export interface JobDescription {

@@ -7,6 +7,8 @@ import { Briefcase, Sparkles } from 'lucide-react';
 import { useCareerCraft } from './hooks/useCareerCraft';
 import type { ResumeData, JobDescription, Region, MatchResult } from './types';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { PDFLayout } from './types/index.js';
+
 
 function App() {
   const [resume, setResume] = useState<ResumeData>({ content: '', file: null });
@@ -15,10 +17,10 @@ function App() {
   const { processMatch, isProcessing, error } = useCareerCraft();
   const [results, setResults] = useState<MatchResult | null>(null);
 
-  const handleResumeUpload = async (file: File, extractedText: string) => {
-    console.log(extractedText);
-    setResume({ content: extractedText, file });
-  };
+  const handleResumeUpload = async (file: File, extractedText: string, layout?: PDFLayout) => {
+    setResume({ content: extractedText, file, layout });
+  };  
+  
   const handleJobSubmit = async (company: string, position: string, description: string) => {
     setJobDetails({ content: description, company, position });
     try {
@@ -95,7 +97,10 @@ function App() {
                   </div>
                 </div>
               ) : results && (
-                <Results results={results} />
+                <Results 
+                  results={results} 
+                  originalLayout={resume.layout}
+                />
               )}
             </div>
           </div>

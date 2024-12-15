@@ -65,7 +65,6 @@ export class CareerCraftAI {
           `Extract key technical skills, qualifications, and requirements from this job description: ${jobDescription}`
         );
         const geminiResult = await geminiResponse.response.text();
-        console.log(geminiResult);
         try {
           return JSON.parse(geminiResult);
         } catch (e) {

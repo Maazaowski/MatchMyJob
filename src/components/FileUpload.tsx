@@ -2,9 +2,10 @@ import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, FileText, AlertCircle } from 'lucide-react';
 import { FileProcessor } from '../services/FileProcessor';
+import { PDFLayout } from '../types';
 
 interface FileUploadProps {
-  onFileUpload: (file: File) => void;
+  onFileUpload: (file: File, extractedText: string, layout?: PDFLayout) => void;
   accept: Record<string, string[]>;
   label: string;
 }
@@ -21,8 +22,8 @@ export function FileUpload({ onFileUpload, accept, label }: FileUploadProps) {
 
       try {
         await FileProcessor.validateFile(file);
-        const extractedText = await FileProcessor.extractText(file);
-        onFileUpload(file, extractedText);  // Update parent with extracted text
+        const { content, layout } = await FileProcessor.processResume(file);
+        onFileUpload(file, content, layout);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error processing file');
       } finally {
